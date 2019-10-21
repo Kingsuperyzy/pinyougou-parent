@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style type="text/css">
+    .row{
+        margin-bottom:8px
+    }
+</style>
+<body>
+<div class="container-fluid">
+    <form id="myForm">
+        <div class="row">
+            <div class="col-md-3">
+                <label for="name">品牌名称</label>
+            </div>
+            <div class="col-md-4">
+                <input type="text" name="id"  style="display: none" class="form-control" th:value="${tbBrand.id}">
+                <input type="text" name="name"   class="form-control" id="name" th:value="${tbBrand.name}" placeholder="输入正确的品牌名称">
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <label for="firstChar">品牌首字母</label>
+            </div>
+            <div class="col-md-4">
+                <input type="text" name="firstChar"  class="form-control" id="firstChar" th:value="${tbBrand.firstChar}" placeholder="输入正确的品牌首字母" >
+            </div>
+        </div>
+
+    </form>
+</div>
+</body>
+<script type="text/javascript">
+
+
+</script>
+</html>

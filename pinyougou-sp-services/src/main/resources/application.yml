@@ -1,0 +1,43 @@
+server:
+  port: 8084
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/pinyougoudb
+    username: root
+    password: root
+  redis:
+    port: 6379
+    database: 0
+    host: 127.0.0.1
+    password:
+    jedis:
+      pool:
+        max-active: 20
+        max-wait: 9000ms
+        max-idle: 20
+        min-idle: 0
+    timeout: 5000ms
+  dubbo:
+    application:
+      name: pinyougou-sp-services
+      #标识是服务端
+    server: true
+    protocol:
+      #dubbo 协议，默认值也是dubbo
+      name: dubbo
+      #dubbo 端口号
+      port: 20880
+    registry:
+      #注册中心地址
+      address: zookeeper://127.0.0.1:2181
+
+mybatis:
+  #mybatisxml文件的地址
+  mapper-locations: classpath:mapper/*.xml
+  #showsql
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>商品分类管理</title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>-->
+
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/bootstrap3/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css">
+	<script src="../js/bootstrap-table/bootstrap-table.js"></script>
+	<script src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+	<link rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css">
+
+
+</head>
+<body>
+<div id="toolbar">
+	<button onclick="delItemCat()" type="button" class="btn btn-danger glyphicon glyphicon-remove-sign">删除</button>
+	<button onclick="openAdd()" type="button" class="btn btn-info glyphicon glyphicon-plus">新增</button>
+	<button onclick="initTable()" type="button" class="btn btn-primary glyphicon glyphicon-refresh">刷新</button>
+</div>
+<div class="table" id="itemCat"></div>
+</body>
+<script type="text/javascript">
+    $(function(){
+		inititemCatTable();
+	})
+	initTable = function(){
+		$("#bookTable").bootstrapTable('refresh')
+	}
+	inititemCatTable = function(){
+		$("#itemCat").bootstrapTable({
+			toolbar:'#toolbar',
+			url:'../ItemCat/queryItemCatPageData',
+			method:'post',
+			contentType:'application/x-www-form-urlencoded',//post请求按照表单方式
+			pagination:true,
+			sidePagination:'server',//分页方式：client客户端分页，server服务端分页
+			pageNumber:1,
+			pageList:[10,20,30,40,50],
+			pageSize:10,
+			clickToSelect: true, //是否启用点击选中行
+			fit:true,
+			queryParams:function(){
+				return {
+					page:this.pageNumber,
+					rows:this.pageSize
+				}
+			},
+			columns:[
+
+				{checkbox:true,width:100},
+				{field:'id',title:'分类id',width:250},
+				{field:'name',title:'分类名称',width:250},
+				{field:'typeId',title:'类型模板ID',width:250},
+
+				{checkbox:true},
+				{field:'id',title:'分类id'},
+				{field:'name',title:'分类名称'},
+				{field:'typeId',title:'类型模板ID'},
+
+				{checkbox:true},
+				{field:'id',title:'分类id',width:200},
+				{field:'name',title:'分类名称'},
+				{field:'typeId',title:'类型模板ID'},
+
+				{field:'cz',title:'操作',formatter:function(value,row,index){
+						return '<button onclick="openNext('+row.typeId+')" type="button" class="btn btn-primary">查询下一级</button>'+'<button onclick="openUpdate('+row.id+')" type="button" class="btn btn-primary">修改</button>';
+					}}
+			]
+
+		})
+	}
+
+
+</script>
+</html>

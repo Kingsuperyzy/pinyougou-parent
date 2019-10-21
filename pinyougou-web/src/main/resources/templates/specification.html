@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>规格管理</title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+
+    <!-- 引入jquery.js文件 -->
+    <script src="../js/jquery.min.js"></script>
+    <!-- 引入bookstrap文件 -->
+    <script src="../js/bootstrap3/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"/>
+    <!-- 引入bookstrap 表格文件 -->
+    <script src="../js/bootstrap-table/bootstrap-table.js"></script>
+    <script type="text/javascript" src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css"/>
+    <!-- 引入bookstrap时间文件 -->
+    <script src="../js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="../js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css"/>
+    <!-- 引入弹框的js -->
+    <script src="../js/bootstrap-bootbox/bootbox.js"></script>
+    <!-- 引入文件上传fileinput的css,js -->
+    <link rel="stylesheet" href="../js/bootstrap-fileinput/css/fileinput.css"/>
+    <script src="../js/bootstrap-fileinput/js/fileinput.js"></script>
+    <script src="../js/bootstrap-fileinput/js/locales/zh.js"></script>
+</head>
+<body>
+<div class="panel panel-default">
+    <!-- 面板主题 -->
+    <div class="panel-heading">品牌管理</div>
+    <!-- 面板内容 -->
+    <div class="panel-body">
+        <!-- 第一行 -->
+        <div class="row">
+            <div class="col-md-1">规格名称：</div>
+            <div class="col-md-5">
+                <input class="form-control" id="specName"/>
+            </div>
+            <div class="col-md-2">
+                <button onclick="querySpecification()" type="button" class="btn btn-primary glyphicon glyphicon-search">搜索</button>
+            </div>
+        </div>
+        <!-- boolbar批删按钮 -->
+        <div id="toolbar">
+            <button onclick="delBrand()" type="button" class="btn btn-danger glyphicon glyphicon-trash">删除</button>
+            <button onclick="openAddForm()" type="button" class="btn btn-danger glyphicon glyphicon-plus">新建</button>
+            <button onclick="refeshtable()" type="button" class="btn btn-danger glyphicon glyphicon-refresh">刷新</button>
+        </div>
+    </div>
+</div>
+
+<div style="" class="table table-hover" id="Specificationtable"></div>
+</body>
+<script type="text/javascript">
+    $(function(){
+        querySpecificationPageData();
+    })
+    var res;
+    function createAddContent(url){
+        $.ajax({
+            url:url,
+            async:false,
+            success:function(data){
+                res = data;
+            }
+        });
+        return res;
+    }
+    //刷新按钮
+    refeshtable =function(){
+        $('#Specificationtable').bootstrapTable('refresh');
+    }
+    //打开修改弹框
+    findMusicById =function(id){
+        bootbox.dialog({
+            title:'修改彈框：',
+            message:createAddContent("../brand/findBrandById?id="+id),
+            closeButton: true,
+            buttons : {
+                "success" : {
+                    "label" : "<i class='icon-ok'></i> 保存",
+                    "className" : "btn-sm btn-success",
+                    "callback" : function() {
+                        $.ajax({
+                            url:'../brand/addBrank',
+                            type:'post',
+                            data:$("#myForm").serialize(),
+                            success:function(data){
+                                $('#Specificationtable').bootstrapTable('refresh');
+                            }
+                        });
+                    }
+                },
+                "cancel" : {
+                    "label" : "<i class='icon-info'></i> 取消",
+                    "className" : "btn-sm btn-danger",
+                    "callback" : function() {
+
+                    }
+                }
+            }
+
+        });
+    }
+    //打开新增弹框
+    openAddForm =function(){
+        bootbox.dialog({
+            title:'新增彈框：',
+            message:createAddContent("../page/toAddSpecification"),
+            closeButton: true,
+            buttons : {
+                "success" : {
+                    "label" : "<i class='icon-ok'></i> 保存",
+                    "className" : "btn-sm btn-success",
+                    "callback" : function() {
+                        $.ajax({
+                            url:'../brand/addBrank',
+                            type:'post',
+                            data:$("#myForm").serialize(),
+                            success:function(data){
+                                $('#Specificationtable').bootstrapTable('refresh');
+                            }
+                        });
+                    }
+                },
+                "cancel" : {
+                    "label" : "<i class='icon-info'></i> 取消",
+                    "className" : "btn-sm btn-danger",
+                    "callback" : function() {
+
+                    }
+                }
+            }
+
+        });
+    }
+    //批量删除
+    delBrand =function(){
+        var brandArr=$("#Specificationtable").bootstrapTable("getSelections");
+        if (brandArr.length<=0) {
+            bootbox.alert({
+                size: "small",
+                title: "提示",
+                message: "請至少選中一條数据！",
+                buttons: {
+                    ok: {
+                        label: 'OK',
+                        className: 'btn-success'
+                    }
+                },
+                callback: function(){}
+            })
+        }else{
+            bootbox.confirm({
+                size: "small",
+                title: "提示",
+                message: "确认删除选中的数据吗？",
+                buttons: {
+                    confirm: {
+                        label: '確定OK',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: '取消No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function(result){
+                    if(result){
+                        var ids="";
+                        for (var i = 0; i < brandArr.length; i++) {
+                            ids+=ids ==""?brandArr[i].id:","+brandArr[i].id;
+                        }
+                        $.post("../brand/delBrand",{ids:ids},function(data){
+                            $('#Specificationtable').bootstrapTable('refresh');
+                        })
+                    }
+
+                }
+            })
+        }
+    }
+
+    querySpecification =function(){
+        $('#Specificationtable').bootstrapTable('refresh',{
+            query:{
+                page:1
+            }
+        })
+    }
+    querySpecificationPageData =function(){
+        $('#Specificationtable').bootstrapTable({
+            toolbar:'#toolbar',
+            url:'../specification/querySpecificationPageData',//获取数据地址
+            method:'post',
+            contentType:'application/x-www-form-urlencoded',//post请求按照表单方式
+            pagination:true, //是否展示分页
+            pageNumber:1,
+            pageList:[2,4,6,8],//分页组件
+            pageSize:5,//默认每页条数
+            sidePagination:'server',//分页方式：client客户端分页，server服务端分页（*
+            clickToSelect: true, //是否启用点击选中行
+            queryParams:function(){
+
+                var specName=$("#specName").val();
+                return{
+                    page:this.pageNumber,
+                    rows:this.pageSize,
+
+                    specName:specName
+                }
+            },
+            columns:[
+                {checkbox:true,width:150},
+                {field:"id",title:"规格ID",width:450},
+                {field:"specName",title:"规格名称",width:450},
+                {field:"xxx",title:"操作",formatter:function(value,row,index){
+
+                        var str='<button onclick="findMusicById('+row.id+')" type="button" class="btn btn-primary glyphicon glyphicon-pencil">修改</button>';
+                        return str;
+                    },width:250},
+            ]
+        });
+
+    }
+
+</script>
+</html>

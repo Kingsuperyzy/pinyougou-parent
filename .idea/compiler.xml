@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="pinyougou-common" />
+        <module name="pinyougou-address-interface" />
+        <module name="pinyougou-sp-interface" />
+        <module name="pinyougou-address-service" />
+        <module name="pinyougou-pojo" />
+        <module name="pinyougou-sp-services" />
+        <module name="pinyougou-cart-interface" />
+        <module name="pinyougou-web" />
+        <module name="pinyougou-sellergoods-interface" />
+        <module name="pinyougou-sellergoods-service" />
+        <module name="pinyougou-cart-service" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="pinyougou-address-interface" options="-parameters" />
+      <module name="pinyougou-address-service" options="-parameters" />
+      <module name="pinyougou-cart-interface" options="-parameters" />
+      <module name="pinyougou-cart-service" options="-parameters" />
+      <module name="pinyougou-common" options="-parameters" />
+      <module name="pinyougou-pojo" options="-parameters" />
+      <module name="pinyougou-sellergoods-interface" options="-parameters" />
+      <module name="pinyougou-sellergoods-service" options="-parameters" />
+      <module name="pinyougou-sp-interface" options="-parameters" />
+      <module name="pinyougou-sp-services" options="-parameters" />
+      <module name="pinyougou-web" options="-parameters" />
+    </option>
+  </component>
+</project>

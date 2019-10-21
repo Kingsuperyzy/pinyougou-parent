@@ -1,0 +1,27 @@
+server:
+  port: 8083
+
+#配置dubbo消费者
+spring:
+  dubbo:
+    application:
+      name: consumer
+    #配置注册中心
+    registry:
+      address: zookeeper://127.0.0.1:2181
+    #dubbo协议
+    procotol:
+      name: dubbo
+      port: 20880
+    #消费者启动检测生产者是否已启动，当值为true时才会检测，默认为true
+    consumer:
+      check: false
+    #roundrobin轮询机制
+    #random #随机机制
+    #leastactive #最少活跃调用数机制
+    reference:
+      loadbalance: roundrobin
+  thymeleaf:
+    mode: HTML
+    prefix: classpath:/templates/
+    suffix: .html

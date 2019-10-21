@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pinyougou.shop.mapper.ShopMapper" >
+
+
+
+    <select id="findUserByName" resultType="com.pinyougou.pojo.TbSeller">
+        select * from tb_seller se where se.seller_id=#{username}
+    </select>
+    
+    <select id="queryGoodsCount" resultType="int">
+        select count(1) from tb_goods g
+        <include refid="tiaocha"></include>
+    </select>
+
+    <select id="queryGoods" resultType="com.pinyougou.pojo.TbGoods">
+        SELECT g.id,g.price, g.goods_name goodsName ,g.category1_id category1Id,g.category2_id category2Id,g.category3_id category3Id,
+        g.audit_status auditStatus FROM tb_goods g
+        <include refid="tiaocha"></include>
+        limit #{start},#{rows}
+    </select>
+
+    <sql id="tiaocha">
+        <where>
+            <if test="goods.auditStatus!=null and goods.auditStatus!='' ">
+             and g.audit_status =#{goods.auditStatus}
+            </if>
+            <if test="goods.goodsName!=null and goods.goodsName!='' ">
+                and g.goods_name like '%${goods.goodsName}%'
+            </if>
+        </where>
+    </sql>
+
+    <delete id="deleteAll">
+        delete from tb_goods
+        <if test="gid != null">
+            and id in
+            <foreach collection="gid" open="(" close=")" separator="," index="index" item="id">
+                #{id}
+            </foreach>
+        </if>
+    </delete>
+    
+    <select id="queryUserName" resultType="com.pinyougou.pojo.TbUser">
+       select * from tb_user where username = #{user}
+    </select>
+    
+    <insert id="zhuce" parameterType="com.pinyougou.pojo.TbUser">
+        insert into tb_user(username,password,phone,created,updated) values
+        (#{username},#{password},#{phone},SYSDATE(),SYSDATE())
+    </insert>
+
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pinyougou.mapper.BrandDao" >
+    <resultMap type="com.pinyougou.pojo.TbBrand" id="BaseResultMap">
+        <id jdbcType="BIGINT" property="id" column="id"/>
+        <result jdbcType="VARCHAR" property="name" column="name"/>
+        <result jdbcType="VARCHAR" property="firstChar" column="first_char"/>
+    </resultMap>
+
+    <select id="queryBrandPageData" resultMap="BaseResultMap">
+       select * from tb_brand
+       limit #{start},#{rows}
+    </select>
+
+    <insert id="addBrank" useGeneratedKeys="true" keyProperty="id" parameterType="com.pinyougou.pojo.TbBrand">
+       INSERT into tb_brand (name,first_char) VALUES(#{name},#{firstChar})
+    </insert>
+    <select id="findBrandById" resultMap="BaseResultMap">
+        select * from tb_brand where id=#{id}
+    </select>
+    <update id="updateBrand" parameterType="com.pinyougou.pojo.TbBrand">
+       update tb_brand set name=#{name},first_char=#{firstChar}
+         where id=#{id}
+    </update>
+    <delete id="delBrand">
+        delete from tb_brand where id in
+        <foreach index="index" close=")" separator="," open="(" item="id" collection="ids">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectOptionList" resultType="java.util.Map">
+  	select id,name as text from tb_brand
+  </select>
+
+
+</mapper>

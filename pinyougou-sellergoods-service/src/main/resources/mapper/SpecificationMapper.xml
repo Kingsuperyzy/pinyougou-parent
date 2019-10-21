@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pinyougou.mapper.SpecificationDao" >
+    <resultMap id="BaseResultMap" type="com.pinyougou.pojo.TbSpecification" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="spec_name" property="specName" jdbcType="VARCHAR" />
+    </resultMap>
+    <select id="querySpecificationCount" resultType="int">
+    select count(1) from tb_specification
+    <include refid="gongsql"></include>
+    </select>
+    <select id="querySpecificationPageData" resultMap="BaseResultMap">
+     select * from tb_specification
+        <include refid="gongsql"></include>
+     limit #{start},#{rows}
+
+    </select>
+
+    <sql id="gongsql">
+    <where>
+     <if test="tbSpecification.specName !=null and tbSpecification.specName!=''">
+         spec_name =#{tbSpecification.specName}
+     </if>
+
+    </where>
+
+
+    </sql>
+</mapper>

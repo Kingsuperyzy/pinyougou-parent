@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style type="text/css">
+    .row{
+        margin-bottom:8px
+    }
+</style>
+<body>
+<!-- 导航条 -->
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <p class="navbar-text" style="margin:20 0 0 500">规格编辑</p>
+        </div>
+    </div>
+</nav>
+<!-- 布局 -->
+<div class="container-fluid">
+    <!-- 栅格系统 -->
+    <div class="row">
+        <form id="myForm">
+            <div class="row">
+                <div class="col-md-3" style="margin:0 0 0 300">
+                    <label for="specName" style="margin:0 0 0 40">规格名称：</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="specName" class="form-control" id="specName" placeholder="输入正确的地址">
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-1" style="margin:0 0 0 300">
+                    <label for="" style="margin:0 0 0 40">规格选项</label>
+                </div>
+                <div class="col-md-4" >
+                    <button style="margin:0 0 0 500" onclick="addForm()" type="button"
+                            class="btn btn-primary  glyphicon glyphicon-screenshot">
+                        添加
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-5" id="formAdd" style="margin:0 0 0 300"></div>
+        </form>
+    </div>
+    <button style="margin:0 0 0 500" onclick="addRecover()" type="button"
+            class="btn btn-danger glyphicon glyphicon-hand-up">
+        提交
+    </button>
+</div>
+
+</body>
+<script type="text/javascript">
+
+    var count=0;
+    function addForm(){
+
+        var arr = '<hr><div class="input-group">'+
+            '<span class="input-group-addon" >垃圾类型</span>'+
+            '<select name="goodlist['+count+'].retype"  class="form-control">'+
+            '<option value="-1">--请选择--</option>'
+            +'<option value="1">干垃圾</option>'
+            +'<option value="2">湿垃圾</option>'
+            +'<option value="3">有害垃圾</option>'
+            +'<option value="4">可回收垃圾</option>'
+            +'</select></div>'
+
+            +'<div class="input-group">'
+            +'<span class="input-group-addon" >名称</span>'
+            +'<input type="text" name="goodlist['+count+'].grename" class="form-control"  aria-describedby="basic-addon1"></div>'
+            +'<div class="input-group">'
+            +'<span class="input-group-addon" >单位</span>'
+            +'<input type="text" name="goodlist['+count+'].unit" class="form-control"  aria-describedby="basic-addon1"></div>'
+            +'<div class="input-group">'
+            +'<span class="input-group-addon" >数量</span>'
+            +'<input type="text" name="goodlist['+count+'].gcount" class="form-control"  aria-describedby="basic-addon1"></div>'
+
+
+
+        count++;
+        $("#formAdd").append(arr)
+    }
+    </script>
+</html>

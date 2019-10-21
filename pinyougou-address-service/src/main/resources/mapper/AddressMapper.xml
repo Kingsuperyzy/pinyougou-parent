@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pinyougou.mapper.AddressDao" >
+
+    <delete id="deleteAll" parameterType="int">
+        delete from tb_address where id in
+        <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <insert id="addAddress" parameterType="com.pinyougou.pojo.TbAddress">
+        insert into tb_address(contact,address,mobile) values(
+                                                                 #{contact},#{address},#{mobile}
+                                                             )
+    </insert>
+    <select id="queryById" parameterType="int" resultType="com.pinyougou.pojo.TbAddress">
+        select * from tb_address where id=#{id}
+    </select>
+    <update id="updateAddress" parameterType="com.pinyougou.pojo.TbAddress">
+        update tb_address  set contact=#{contact},address=#{address},mobile=#{mobile}
+        where id=#{id}
+    </update>
+</mapper>
